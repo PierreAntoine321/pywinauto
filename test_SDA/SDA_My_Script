@@ -1,0 +1,37 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+def handle_open_with_prompt(driver):
+    try:
+        # Trouver l'onglet actif
+        active_tab = driver.find_element_by_css_selector('.tab.active')
+        
+        # Basculer vers l'onglet actif en envoyant la combinaison de touches Ctrl + 1, Ctrl + 2, etc.
+        active_tab.send_keys(Keys.ALT + Keys.TAB)
+        
+        # Attendre que le contenu de l'onglet actif soit chargé
+        driver.implicitly_wait(5)
+        
+        # Répondre au prompt "Ouvrir Excel" en appuyant sur la touche Enter
+        driver.switch_to.alert.accept()
+        print("Prompt 'Ouvrir Excel' géré avec succès.")
+    except Exception as e:
+        print("Erreur lors de la gestion du prompt 'Ouvrir Excel':", e)
+
+# Assurez-vous que Google Chrome est déjà ouvert avec l'onglet spécifié
+# et créez une instance du driver Chrome pour interagir avec l'onglet existant
+chemin_chromedriver = 'C:/Users/Stephane/AppData/Local/SeleniumBasic/chromedriver.exe'
+driver = webdriver.Chrome(executable_path ='C://Users/Stephane/AppData/Local/SeleniumBasic/chromedriver.exe')
+
+# Basculez vers l'onglet spécifié dans l'URL
+url = 'https://johncockerill.sharepoint.com/sites/BudgetPlanning2024/Documents%20partages/Forms/AllItems.aspx?id=%2Fsites%2FBudgetPlanning2024%2FDocuments%20partages%2FGeneral%2FArchive%20and%20sample'
+driver.get(url)
+
+# Appelez la fonction pour répondre au prompt "Ouvrir Excel"
+handle_open_with_prompt(driver)
+
+# Vous pouvez continuer à interagir avec l'onglet ouvert si nécessaire
+# Par exemple, cliquer sur des boutons, remplir des formulaires, etc.
+
+# Fermer le navigateur (l'onglet Google Chrome reste ouvert)
+driver.quit()
